@@ -1,5 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomePage from '@/presentation/HomePage.vue'
+import AuthScreen from '@/presentation/auth/AuthScreen.vue'
+import SignupView from '@/presentation/auth/SignupView.vue'
+import LoginView from '@/presentation/auth/LoginView.vue'
+import BookingPage from '@/presentation/booking/BookingPage.vue'
+import { useAuthStore } from '@/data/stores/userAccountStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,18 +12,48 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomePage,
+      meta: {
+        isProtected: true
+      }
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/booking',
+      name: 'booking',
+      component: BookingPage,
+      meta: {
+        isProtected: true
+      }
     },
 
+    {
+      path: '/auth',
+      component: AuthScreen,
+      children: [
+        {
+          path: 'signup',
+          component: SignupView
+        },
+        {
+          path: 'login',
+          component: LoginView
+        }
+      ],
+      meta: {
+        isProtected: false
+      }
+    }
   ]
+})
+
+//guard the routes
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  if (to.meta.isProtected && !authStore.jwt) {
+    next('/auth/login');
+  } else {
+    next();
+  }
 })
 
 export default router
