@@ -1,12 +1,12 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
-import { useJwt } from '@vueuse/integrations/useJwt'
+import { jwtDecode } from 'jwt-decode'
 
 const API_BASE_URL = 'http://localhost:3000' // api base url
 
 export const useAuthStore = defineStore('authStore', {
   state: () => ({
-    currentUser: useStorage('currentUser', null) as User,
+    currentUser: useStorage('currentUser', {} as User) as User,
     jwt: useStorage('jwt', null) as string,
     isLoading: false,
     info_message: null,
@@ -16,6 +16,9 @@ export const useAuthStore = defineStore('authStore', {
     logoutUser() {
       this.jwt = null
       this.currentUser = null
+      // Explicitly remove from storage if necessary
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('jwt');
     },
 
     async loginUser(email: string, password: string, accountType: string): Promise<boolean> {
@@ -38,10 +41,8 @@ export const useAuthStore = defineStore('authStore', {
         }
         const data = await response.json()
         this.jwt = data.token
-        this.currentUser = {
-          accountType,
-          ...useJwt(this.jwt).payload
-        }
+        const incomingUser = validateUser(jwtDecode(this.jwt))
+        this.currentUser = { ...incomingUser, accountType }
         return true
       } catch (e) {
         console.error('Error', e)
@@ -78,3 +79,24 @@ export const useAuthStore = defineStore('authStore', {
     }
   }
 })
+
+function validateUser(data: any): User {
+  // Define default values to ignore unknown fields
+  const defaultUser: User = {
+    id: 0,
+    names: '',
+    email: '',
+    accountType: '',
+    hierarchyLevel: -1
+  }
+
+  // Return only the properties that match the User interface
+  return {
+    id: typeof data.id === 'number' ? data.id : defaultUser.id,
+    names: typeof data.names === 'string' ? data.names : defaultUser.names,
+    email: typeof data.email === 'string' ? data.email : defaultUser.email,
+    accountType: typeof data.accountType === 'string' ? data.accountType : defaultUser.accountType,
+    hierarchyLevel:
+      typeof data.hierarchyLevel === 'number' ? data.hierarchyLevel : defaultUser.hierarchy
+  }
+}

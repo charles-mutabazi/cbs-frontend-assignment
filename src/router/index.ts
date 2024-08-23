@@ -5,26 +5,31 @@ import SignupView from '@/presentation/auth/SignupView.vue'
 import LoginView from '@/presentation/auth/LoginView.vue'
 import BookingPage from '@/presentation/booking/BookingPage.vue'
 import { useAuthStore } from '@/data/stores/userAccountStore'
+import Layout from '@/presentation/Layout.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomePage,
+      component: Layout,
       meta: {
         isProtected: true
-      }
+      },
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: HomePage,
+        },
+        {
+          path: 'new-booking',
+          name: 'booking',
+          component: BookingPage,
+        },
+      ]
     },
-    {
-      path: '/booking',
-      name: 'booking',
-      component: BookingPage,
-      meta: {
-        isProtected: true
-      }
-    },
+
 
     {
       path: '/auth',

@@ -3,15 +3,16 @@ import { useAuthStore } from '@/data/stores/userAccountStore'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const {logoutUser} = useAuthStore()
 const logout = () => {
-  useAuthStore().logoutUser()
+  logoutUser()
   router.replace('auth/login')
 }
 </script>
 
 <template>
   <nav>
-    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-md p-4">
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-lg p-4">
       <router-link class="flex items-center" to="/">
         <img alt="Book A Car" class="h-8 mr-3 rounded-lg" src="@/assets/logo.svg" />
         <span class="self-center text-2xl font-semibold whitespace-nowrap">XYZ Company</span>
