@@ -1,14 +1,12 @@
 import { useAuthStore } from '@/data/stores/userAccountStore'
-import { useJwt } from '@vueuse/integrations'
-
-const BASE_URL = import.meta.env.VITE_FIREBASE_API_KEY
 
 class UserRepositoryImpl implements UserRepository {
   async loginUser(email: string, password: string) {
     const userStore = useAuthStore()
 
     userStore.$patch({
-      isLoading: true
+      isLoading: true,
+      error: null
     })
 
     try {

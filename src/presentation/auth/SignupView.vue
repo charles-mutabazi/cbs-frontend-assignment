@@ -33,6 +33,34 @@
             required
           />
         </div>
+
+        <!-- Account Type Radio Buttons -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Account Type</label>
+          <div class="flex items-center mt-2">
+            <label class="flex items-center">
+              <input
+                type="radio"
+                v-model="accountType"
+                value="Employee"
+                class="form-radio text-blue-600"
+              />
+              <span class="ml-2 text-gray-700">Employee</span>
+            </label>
+            <label class="flex items-center ml-4">
+              <input
+                type="radio"
+                v-model="accountType"
+                value="Driver"
+                class="form-radio text-blue-600"
+              />
+              <span class="ml-2 text-gray-700">Driver</span>
+            </label>
+          </div>
+        </div>
+
+        <hr class="mt-6 mb-6"/>
+
         <button
           type="submit"
           class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:outline-none"
@@ -42,7 +70,7 @@
       </form>
       <div class="text-center mt-6">
         <p class="text-gray-600">Already have an account?</p>
-        <router-link to="/login" class="text-blue-500 hover:underline">
+        <router-link to="login" class="text-blue-500 hover:underline">
           Login
         </router-link>
       </div>
@@ -50,20 +78,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      name: "",
-      email: "",
-      password: "",
-    };
-  },
-  methods: {
-    signup() {
-      // Handle signup logic
-      console.log("Signing up with", this.name, this.email, this.password);
-    },
-  },
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const name = ref('');
+const email = ref('');
+const password = ref('');
+const accountType = ref('employee'); // Default to "Employee"
+
+const signup = () => {
+  // Handle the signup process, including sending the accountType value
+  console.log({
+    name: name.value,
+    email: email.value,
+    password: password.value,
+    accountType: accountType.value.toLowerCase(),
+  });
 };
 </script>

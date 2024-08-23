@@ -48,11 +48,13 @@ const router = createRouter({
 
 //guard the routes
 router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
   if (to.meta.isProtected && !authStore.jwt) {
-    next('/auth/login');
+    next('/auth/login')
+  } else if (!to.meta.isProtected && authStore.jwt) {
+    next('/')
   } else {
-    next();
+    next()
   }
 })
 

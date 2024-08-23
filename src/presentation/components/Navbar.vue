@@ -1,4 +1,13 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { useAuthStore } from '@/data/stores/userAccountStore'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const logout = () => {
+  useAuthStore().logoutUser()
+  router.replace('auth/login')
+}
+</script>
 
 <template>
   <nav>
@@ -9,9 +18,12 @@
       </router-link>
 
       <div class="flex items-center">
-        <router-link class="text-sm text-orange-600 hover:underline" to="/auth/login">
+        <button
+          class="text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-10 focus:outline-none"
+          @click="logout"
+        >
           Logout
-        </router-link>
+        </button>
       </div>
     </div>
   </nav>
