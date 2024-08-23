@@ -2,6 +2,12 @@
   <div class="flex items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white p-8 rounded-lg shadow-lg w-96">
       <h2 class="text-2xl font-bold text-center mb-6">Sign Up</h2>
+
+      <!-- Error Banner -->
+      <div v-if="errorMessage" class="bg-red-500 text-white text-center p-2 rounded mb-4">
+        {{ errorMessage }}
+      </div>
+
       <form @submit.prevent="signup">
         <div class="mb-4">
           <label for="name" class="block text-gray-700">Name</label>
@@ -42,7 +48,7 @@
               <input
                 type="radio"
                 v-model="accountType"
-                value="Employee"
+                value="employee"
                 class="form-radio text-blue-600"
               />
               <span class="ml-2 text-gray-700">Employee</span>
@@ -51,7 +57,7 @@
               <input
                 type="radio"
                 v-model="accountType"
-                value="Driver"
+                value="driver"
                 class="form-radio text-blue-600"
               />
               <span class="ml-2 text-gray-700">Driver</span>
@@ -59,7 +65,7 @@
           </div>
         </div>
 
-        <hr class="mt-6 mb-6"/>
+        <hr class="mt-6 mb-6" />
 
         <button
           type="submit"
@@ -70,29 +76,38 @@
       </form>
       <div class="text-center mt-6">
         <p class="text-gray-600">Already have an account?</p>
-        <router-link to="login" class="text-blue-500 hover:underline">
-          Login
-        </router-link>
+        <router-link to="login" class="text-blue-500 hover:underline"> Login</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { useAuthStore } from '@/data/stores/userAccountStore'
+import { useRouter } from 'vue-router'
 
-const name = ref('');
-const email = ref('');
-const password = ref('');
-const accountType = ref('employee'); // Default to "Employee"
+const authStore = useAuthStore()
+const router = useRouter()
 
-const signup = () => {
-  // Handle the signup process, including sending the accountType value
-  console.log({
-    name: name.value,
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const accountType = ref('employee') // Default to "Employee"
+const errorMessage = ref('')
+
+const signup = async () => {
+  const accountInfo: NewAccount = {
+    names: name.value,
     email: email.value,
-    password: password.value,
-    accountType: accountType.value.toLowerCase(),
-  });
-};
+    password: password.value
+  }
+
+  const isSuccess = await authStore.createUserAccount(accountInfo, accountType.value)
+  if (isSuccess) {
+    await router.replace('login')
+  } else {
+    errorMessage.value = authStore.error
+  }
+}
 </script>

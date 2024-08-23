@@ -9,6 +9,7 @@ export const useAuthStore = defineStore('authStore', {
     currentUser: useStorage('currentUser', null) as User,
     jwt: useStorage('jwt', null) as string,
     isLoading: false,
+    info_message: null,
     error: null
   }),
   actions: {
@@ -49,14 +50,15 @@ export const useAuthStore = defineStore('authStore', {
 
       this.isLoading = false
     },
-    async createUserAccount(user: User): Promise<User | undefined> {
+    async createUserAccount(accountInfo: NewAccount, accountType): Promise<boolean> {
       try {
+        const endpoint = accountType === 'driver' ? '/drivers' : '/users'
         // Set the loading state to true
         this.isLoading = true
 
-        const response = await fetch(API_BASE_URL + '/users', {
+        const response = await fetch(API_BASE_URL + `${endpoint}`, {
           method: 'POST',
-          body: JSON.stringify(user),
+          body: JSON.stringify(accountInfo),
           headers: {
             'Content-Type': 'application/json'
           }
@@ -65,7 +67,10 @@ export const useAuthStore = defineStore('authStore', {
         if (!response.ok) {
           console.error('Error Code: ', response.statusText)
           this.error = 'An error occurred trying to create the account'
+          return false
         }
+        this.info_message = 'Account created successfully'
+        return true
       } catch (e) {
         console.error('Error', e)
         this.error = 'An error occurred trying to create the account'
