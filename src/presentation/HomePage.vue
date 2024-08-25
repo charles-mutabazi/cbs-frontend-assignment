@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/data/stores/authStore'
 import { computed, onMounted } from 'vue'
 import { useBookingStore } from '@/data/stores/bookingStore'
-import type { BookingListing } from '@/domain/model/Booking'
+import { type BookingListing, BookingStatus } from '@/domain/model/Booking'
 
 const authStore = useAuthStore()
 const { currentUser } = authStore
@@ -87,6 +87,7 @@ onMounted(async () => {
                   ? 'cursor-not-allowed bg-gray-300'
                   : 'cursor-pointer bg-red-500 hover:bg-red-600'
               ]"
+              @click="bookingStore.updateBooking(booking.id, BookingStatus.CANCELED)"
             >
               Cancel
             </button>
