@@ -84,7 +84,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/data/stores/userAccountStore'
+import { useAuthStore } from '@/data/stores/authStore'
 import { useRouter } from 'vue-router'
 
 const authStore = useAuthStore()

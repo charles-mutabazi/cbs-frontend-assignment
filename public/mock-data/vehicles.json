@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "BMW",
+    "capacity": 4,
+    "licensePlate": "ABC 123",
+    "active": true,
+    "driverId": 2
+  },
+  {
+    "id": 2,
+    "name": "Toyota",
+    "capacity": 4,
+    "licensePlate": "DEF 456",
+    "active": true,
+    "driverId": 3
+  },
+  {
+    "id": 3,
+    "name": "Mercedes",
+    "capacity": 4,
+    "licensePlate": "GHI 789",
+    "active": true,
+    "driverId": 4
+  },
+  {
+    "id": 4,
+    "name": "Honda",
+    "capacity": 4,
+    "licensePlate": "JKL 101",
+    "active": true,
+    "driverId": 1
+  }
+]

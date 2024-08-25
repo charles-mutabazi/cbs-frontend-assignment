@@ -4,7 +4,7 @@ import AuthScreen from '@/presentation/auth/AuthScreen.vue'
 import SignupView from '@/presentation/auth/SignupView.vue'
 import LoginView from '@/presentation/auth/LoginView.vue'
 import BookingPage from '@/presentation/booking/BookingPage.vue'
-import { useAuthStore } from '@/data/stores/userAccountStore'
+import { useAuthStore } from '@/data/stores/authStore'
 import Layout from '@/presentation/Layout.vue'
 
 const router = createRouter({

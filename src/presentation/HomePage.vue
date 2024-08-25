@@ -1,29 +1,21 @@
 <script setup lang="ts">
-import { useAuthStore } from '@/data/stores/userAccountStore'
-import { ref } from 'vue'
+import { useAuthStore } from '@/data/stores/authStore'
+import { computed, onMounted } from 'vue'
+import { useBookingStore } from '@/data/stores/bookingStore'
+import type { BookingListing } from '@/domain/model/Booking'
 
 const authStore = useAuthStore()
-const { currentUser, jwt } = authStore
+const { currentUser } = authStore
+const bookingStore = useBookingStore()
 
-console.log(jwt, currentUser)
+// make sure we have the latest bookings array
+const bookingListings: BookingListing[] = computed(() => {
+  return bookingStore.bookings.slice() // Create a copy of the array
+})
 
-const bookings = ref([
-  {
-    vehicleName: 'Toyota Prius',
-    capacity: 4,
-    driver: 'John Doe',
-    bookingDate: '2024-08-24',
-    status: 'Confirmed'
-  },
-  {
-    vehicleName: 'Honda Civic',
-    capacity: 5,
-    driver: 'Jane Smith',
-    bookingDate: '2024-08-25',
-    status: 'Pending'
-  }
-  // Add more booking objects as needed
-])
+onMounted(async () => {
+  await bookingStore.getMyBookings()
+})
 </script>
 
 <template>
@@ -67,19 +59,19 @@ const bookings = ref([
       </thead>
       <tbody>
         <tr
-          v-for="(booking, index) in bookings"
+          v-for="(booking, index) in bookingListings"
           :key="index"
           class="border-b border-gray-200 hover:bg-gray-100"
         >
           <td class="py-3 px-6 text-left">{{ booking.vehicleName }}</td>
-          <td class="py-3 px-6 text-left">{{ booking.capacity }}</td>
-          <td class="py-3 px-6 text-left">{{ booking.driver }}</td>
-          <td class="py-3 px-6 text-left">{{ booking.bookingDate }}</td>
+          <td class="py-3 px-6 text-left">{{ booking.vehicleCapacity }}</td>
+          <td class="py-3 px-6 text-left">{{ booking.driverName }}</td>
+          <td class="py-3 px-6 text-left">{{ booking.slotDateTime }}</td>
           <td class="py-3 px-6 text-left">
             <span
               :class="[
                 'py-1 px-3 rounded-full text-xs',
-                booking.status === 'Confirmed'
+                booking.status === 'APPROVED'
                   ? 'bg-green-200 text-green-800'
                   : 'bg-yellow-200 text-yellow-800'
               ]"
@@ -88,7 +80,16 @@ const bookings = ref([
             </span>
           </td>
           <td class="py-3 px-6 text-center">
-            <button class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Cancel</button>
+            <button
+              :class="[
+                'text-white px-3 py-1 rounded',
+                booking.status !== 'PENDING'
+                  ? 'cursor-not-allowed bg-gray-300'
+                  : 'cursor-pointer bg-red-500 hover:bg-red-600'
+              ]"
+            >
+              Cancel
+            </button>
           </td>
         </tr>
       </tbody>

@@ -1,0 +1,13 @@
+{
+  "drivers": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "driver1@me.com",
+      "assignedVehicleId": 1,
+      "active": true,
+      "createdAt": "2021-08-01T12:00:00.000Z",
+      "updatedAt": "2021-08-01T12:00:00.000Z"
+    }
+  ]
+}

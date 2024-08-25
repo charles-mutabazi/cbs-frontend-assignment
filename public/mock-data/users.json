@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "test1@me.com",
+      "hierarchyLevel": 1
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "email": "test2@me.com",
+      "hierarchyLevel": 2
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "vehicleId": 1,
+    "destination": "Lagos",
+    "slotDateTime": "2021-08-01T17:00:00.000Z",
+    "status": "pending",
+    "createdAt": "2021-08-01T12:00:00.000Z",
+    "updatedAt": "2021-08-01T12:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "userId": 2,
+    "vehicleId": 2,
+    "destination": "Abuja",
+    "slotDateTime": "2021-08-01T12:00:00.000Z",
+    "status": "pending",
+    "createdAt": "2021-08-01T12:00:00.000Z",
+    "updatedAt": "2021-08-01T12:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "userId": 3,
+    "vehicleId": 3,
+    "destination": "Port Harcourt",
+    "slotDateTime": "2021-08-01T13:00:00.000Z",
+    "status": "pending",
+    "createdAt": "2021-08-01T12:00:00.000Z",
+    "updatedAt": "2021-08-01T12:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "userId": 4,
+    "vehicleId": 4,
+    "destination": "Kano",
+    "slotDateTime": "2021-08-01T08:00:00.000Z",
+    "status": "pending",
+    "createdAt": "2021-08-01T12:00:00.000Z",
+    "updatedAt": "2021-08-01T12:00:00.000Z"
+  }
+]
+

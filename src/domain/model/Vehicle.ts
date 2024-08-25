@@ -1,6 +1,8 @@
-interface Vehicle {
+export interface Vehicle {
   id: number
-  name: string
+  name: string,
+  licensePlate: string
+  driverId: number
   capacity: number
-  availabilityStatus: boolean
+  bookings: number[] // booking ids
 }
