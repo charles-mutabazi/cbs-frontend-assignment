@@ -30,6 +30,12 @@ const router = createRouter({
       ]
     },
 
+    {
+      path: '/not-found',
+      name: 'not-found',
+      component: () => import('@/presentation/NotFound.vue')
+    },
+
 
     {
       path: '/auth',
@@ -58,8 +64,11 @@ router.beforeEach((to, from, next) => {
     next('/auth/login')
   } else if (!to.meta.isProtected && authStore.jwt) {
     next('/')
+  } else if (to.matched.length === 0)  {
+    next('/not-found')
   } else {
     next()
+
   }
 })
 
