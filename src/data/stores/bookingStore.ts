@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type { Vehicle } from '@/domain/model/Vehicle'
-import { type BookingListing, BookingStatus } from '@/domain/model/Booking'
+import { type BookingListing, BookingStatus, type NewBooking } from '@/domain/model/Booking'
 import { useAuthStore } from '@/data/stores/authStore'
 
 interface BookingState {
@@ -76,6 +76,28 @@ export const useBookingStore = defineStore('bookingStore', {
         console.error('Error', e)
         this.errorMessage = 'An error occurred while fetching available vehicles'
         return []
+      }
+    },
+
+    async createBooking(newBooking: NewBooking) {
+      try {
+        this.errorMessage = null
+        const res = await fetch(import.meta.env.VITE_API_BASE_URL + '/bookings', {
+          method: 'POST',
+          body: JSON.stringify(newBooking),
+          headers: {
+            Authorization: 'Bearer ' + useAuthStore().jwt,
+            'Content-Type': 'application/json'
+          }
+        })
+        if (!res.ok) {
+          this.errorMessage = 'Unable to book the vehicle'
+          return
+        }
+        this.bookings = [...this.bookings, newBooking]
+      } catch (e) {
+        console.error('Error', e)
+        this.errorMessage = 'An error occurred while booking the vehicle'
       }
     }
   },

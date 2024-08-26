@@ -153,9 +153,11 @@ import { useAuthStore } from '@/data/stores/authStore'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import { BookingStatus, type NewBooking } from '@/domain/model/Booking'
 import type { Vehicle } from '@/domain/model/Vehicle'
+import { useRouter } from 'vue-router'
 
-const { fetchAvailableVehicles } = useBookingStore()
+const { fetchAvailableVehicles, createBooking, errorMessage } = useBookingStore()
 const { currentUser } = useAuthStore()
+const router = useRouter()
 
 //generate time slots for 8 hours
 const generateTimeSlots = () => {
@@ -210,16 +212,18 @@ watch([dateValue, selectedSlot], () => {
 })
 
 // Handle form submission
-const submitForm = () => {
+const submitForm = async () => {
   const newBooking: NewBooking = {
-    userId: currentUser.id,
     driverId: selectedVehicle.value.driverId,
     vehicleId: selectedVehicle.value.id,
     destination: destination.value,
     slotDateTime: new Date(isoDateString.value).toISOString(),
     status: BookingStatus.PENDING
   }
-  // Handle form submission logic here
-  console.log('Form submitted:', newBooking)
+  await createBooking(newBooking)
+
+  if(errorMessage === '' || errorMessage === null){
+    router.replace('/')
+  }
 }
 </script>
