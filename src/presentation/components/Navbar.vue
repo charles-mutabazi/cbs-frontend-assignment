@@ -20,7 +20,7 @@ const logout = () => {
 
       <div class="flex items-center">
         <button
-          class="text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-10 focus:outline-none"
+          class="text-white bg-red-700 hover:bg-red-900 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none"
           @click="logout"
         >
           Logout

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from '@/presentation/HomePage.vue'
+import HomePage from '@/presentation/home/HomePage.vue'
 import AuthScreen from '@/presentation/auth/AuthScreen.vue'
 import SignupView from '@/presentation/auth/SignupView.vue'
 import LoginView from '@/presentation/auth/LoginView.vue'
