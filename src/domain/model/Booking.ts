@@ -1,4 +1,4 @@
-export interface Booking {
+export interface NewBooking {
   id: number
   userId: number
   vehicleId: number

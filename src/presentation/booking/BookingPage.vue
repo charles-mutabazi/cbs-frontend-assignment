@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <div>
     <p class="text-2xl font-semibold mb-8 border-b pb-4">New Booking</p>
 
@@ -33,71 +33,113 @@
 
       <!-- Booking Form Section -->
       <div class="w-2/3 ps-8 flex flex-col">
-        <h2 class="text-xl font-semibold mb-4">Add Booking Details</h2>
-        <form @submit.prevent="submitForm" class="space-y-4">
-          <div>
-            <label for="name" class="block text-gray-700 font-medium">Name</label>
-            <input
-              id="name"
-              v-model="currentUser.names"
-              type="text"
-              class="bg-gray-100 mt-1 p-2 w-full border border-gray-300 rounded-lg"
-              disabled
-              readonly
-            />
+        <!-- Only show this div if a slot is selected-->
+        <div v-if="displaySlotDate() !== ''">
+          <div class="border-b">
+            <h2 class="text-xl font-semibold mb-2">Add Booking Details</h2>
+            <h2 class="text-md mb-4 text-gray-700">
+              You are making a booking as {{ currentUser.names }}
+            </h2>
           </div>
-          <div>
-            <label for="email" class="block text-gray-700 font-medium">Email</label>
-            <input
-              id="email"
-              v-model="currentUser.email"
-              type="email"
-              class="bg-gray-100 mt-1 p-2 w-full border border-gray-300 rounded-lg"
-              disabled
-              readonly
-            />
+
+          <div class="mt-4 mb-4 border-b pb-4">
+            <p>Selected Slot</p>
+            <p class="text-2xl font-bold">{{ displaySlotDate() }}</p>
+          </div>
+
+          <button
+            v-if="showButton"
+            @click="fetchVehicles()"
+            class="w-full bg-amber-700 text-white rounded-lg hover:bg-amber-800 mb-4 h-14"
+          >
+            Check available vehicles
+          </button>
+
+          <!--grid of available vehicles-->
+          <div class="mb-8" v-show="!showButton">
+            <p class="text-lg font-bold text-gray-700">Available Vehicles</p>
+            <p class="text-xs text-gray-500 mb-4">Select your desired vehicle</p>
+            <div class="grid grid-cols-2 gap-4" v-if="vehicles.length > 0">
+              <div
+                v-for="vehicle in vehicles"
+                :key="vehicle.id"
+                @click="selectedVehicle = vehicle"
+                :class="[
+                  'bg-amber-50 border border-amber-500 rounded-md p-2 hover:cursor-pointer hover:bg-amber-100',
+                  vehicle === selectedVehicle ? 'bg-amber-700 border-0 hover:bg-amber-700' : ''
+                ]"
+              >
+                <p
+                  :class="[
+                    'text-sm font-semibold mb-2',
+                    vehicle === selectedVehicle ? 'text-white' : 'text-amber-900'
+                  ]"
+                >
+                  {{ vehicle.name }}
+                </p>
+                <p
+                  :class="[
+                    'text-xs',
+                    vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
+                  ]"
+                >
+                  License Plate: {{ vehicle.licensePlate }}
+                </p>
+                <p
+                  :class="[
+                    'text-xs',
+                    vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
+                  ]"
+                >
+                  Capacity: {{ vehicle.capacity }} seats
+                </p>
+
+                <p
+                  :class="[
+                    'text-xs font-semibold',
+                    vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
+                  ]"
+                >
+                  Driver: {{ vehicle.driverNames }}
+                </p>
+              </div>
+            </div>
+            <div v-else class="flex items-center justify-center">
+              <p class="w-full mt-4 mb-4 text-lg text-gray-500 text-center">
+                No vehicles available for the selected date and time. Please change the date and
+                time and try again.
+              </p>
+            </div>
           </div>
 
           <div>
-            <label for="destination" class="block text-gray-700 font-medium">Destination</label>
+            <label for="destination" class="block text-gray-700 font-medium">
+              Enter your Destination
+            </label>
             <input
               id="destination"
               v-model="destination"
-              class="mt-1 p-2 w-full border border-gray-300 rounded-lg"
+              class="mt-1 p-2 w-full border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
+              :disabled="!selectedVehicle"
               required
             />
-            <p class="text-xs text-gray-700 mt-2">Enter the destination</p>
           </div>
 
-          <div>
-            <label for="vehicle" class="block text-gray-700 font-medium">
-              Select your preferred vehicle
-            </label>
-            <select
-              id="vehicle"
-              v-model="selectedVehicle"
-              class="mt-1 p-2 w-full border border-gray-300 rounded-lg bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            >
-              <option value="" selected>Select a vehicle</option>
-              <option v-for="vehicle in availableCars" :key="vehicle" :value="vehicle">
-                {{
-                  vehicle.name + ' - ' + vehicle.capacity + ' seats (' + vehicle.licensePlate + ')'
-                }}
-              </option>
-            </select>
+          <hr class="mt-8 mb-8" />
 
-            <div class="mt-4 mb-4 border-b pb-8">
-              <p>Selected Slot</p>
-              <p class="text-2xl font-bold">{{ displaySlotDate() }}</p>
-            </div>
-          </div>
           <button
+            @click="submitForm"
             type="submit"
-            class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+            class="w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600 h-14 disabled:opacity-60 disabled:cursor-not-allowed"
+            :disabled="!selectedVehicle || !destination"
           >
             Submit
           </button>
-        </form>
+        </div>
+
+        <div v-else>
+          <p>Please Select date and time</p>
+        </div>
       </div>
     </div>
   </div>
@@ -105,24 +147,17 @@
 
 <script setup lang="ts">
 // Generate time slots for 8 hours, starting from 08:00 AM
-import { onMounted, ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useBookingStore } from '@/data/stores/bookingStore'
 import { useAuthStore } from '@/data/stores/authStore'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
-import { BookingStatus } from '@/domain/model/Booking'
+import { BookingStatus, type NewBooking } from '@/domain/model/Booking'
 import type { Vehicle } from '@/domain/model/Vehicle'
 
-const { getAvailableVehicles } = useBookingStore()
+const { fetchAvailableVehicles } = useBookingStore()
 const { currentUser } = useAuthStore()
 
-const availableVehicles = ref<Vehicle[]>([])
-
-// get all bookings
-onMounted(async () => {
-  availableVehicles.value = await getAvailableVehicles()
-})
-const availableCars = availableVehicles
-
+//generate time slots for 8 hours
 const generateTimeSlots = () => {
   const slots = []
   for (let hour = 8; hour <= 16; hour++) {
@@ -146,9 +181,8 @@ const formatter = ref({
   month: 'MMM'
 })
 
-const selectedVehicle = ref<Vehicle>({})
-
 const isoDateString = ref('')
+const showButton = ref(false)
 
 const displaySlotDate = (): string => {
   isoDateString.value = `${dateValue.value}T${selectedSlot.value}:00+02:00`
@@ -163,11 +197,21 @@ const displaySlotDate = (): string => {
   }).format(date)
 }
 
-// Form state
+const selectedVehicle = ref<Vehicle>(null)
+const vehicles = ref<Vehicle[]>([])
+
+const fetchVehicles = async () => {
+  vehicles.value = await fetchAvailableVehicles(new Date(isoDateString.value).toISOString())
+  showButton.value = false
+}
+
+watch([dateValue, selectedSlot], () => {
+  showButton.value = true
+})
 
 // Handle form submission
 const submitForm = () => {
-  const newBooking: Booking = {
+  const newBooking: NewBooking = {
     userId: currentUser.id,
     driverId: selectedVehicle.value.driverId,
     vehicleId: selectedVehicle.value.id,
@@ -179,4 +223,3 @@ const submitForm = () => {
   console.log('Form submitted:', newBooking)
 }
 </script>
-

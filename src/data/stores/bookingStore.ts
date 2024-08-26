@@ -5,14 +5,12 @@ import { useAuthStore } from '@/data/stores/authStore'
 
 interface BookingState {
   bookings: BookingListing[]
-  availableVehicles: Vehicle[]
   errorMessage: string | null
 }
 
 export const useBookingStore = defineStore('bookingStore', {
   state: (): BookingState => ({
     bookings: [],
-    availableVehicles: [],
     errorMessage: null
   }),
   actions: {
@@ -58,9 +56,27 @@ export const useBookingStore = defineStore('bookingStore', {
       }
     },
 
-    async getAvailableVehicles(): Promise<Vehicle[]> {
-      const res = await fetch('./mock-data/vehicles.json')
-      return await res.json()
+    async fetchAvailableVehicles(slotDateTime: Date): Promise<Vehicle[]> {
+      try {
+        const res = await fetch(import.meta.env.VITE_API_BASE_URL + '/vehicles/available', {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + useAuthStore().jwt,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ slotDateTime })
+        })
+        if (!res.ok) {
+          console.error('Error', res.statusText)
+          this.errorMessage = 'Unable to fetch available vehicles, please try again later'
+          return
+        }
+        return await res.json()
+      } catch (e) {
+        console.error('Error', e)
+        this.errorMessage = 'An error occurred while fetching available vehicles'
+        return []
+      }
     }
   },
   getters: {
