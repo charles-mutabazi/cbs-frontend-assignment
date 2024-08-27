@@ -3,7 +3,7 @@ export interface NewBooking {
   userId: number
   vehicleId: number
   driverId: number
-  slotDateTime: Date
+  slotDateTime: String
   destination: string
   status: BookingStatus
 }

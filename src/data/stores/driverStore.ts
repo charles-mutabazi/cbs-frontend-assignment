@@ -26,7 +26,7 @@ export const useDriverStore = defineStore('driverStore', {
     }
   },
   getters: {
-    getDriverVehicle() {
+    getDriverVehicle(): any {
       return this.driverVehicle
     }
   }

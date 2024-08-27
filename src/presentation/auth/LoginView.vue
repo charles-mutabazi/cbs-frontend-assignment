@@ -83,7 +83,7 @@ const router = useRouter()
 const email = ref('')
 const password = ref('')
 const accountType = ref('employee'); // Default to "Employee"
-const errorMessage = ref('')
+const errorMessage = ref<string|null>('')
 
 const onLogin = async () => {
   try {
@@ -93,7 +93,7 @@ const onLogin = async () => {
     } else {
       errorMessage.value = authStore.error
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error(error)
     errorMessage.value = error.message
   }

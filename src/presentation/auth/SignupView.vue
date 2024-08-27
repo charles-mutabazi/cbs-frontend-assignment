@@ -94,7 +94,7 @@ const name = ref('')
 const email = ref('')
 const password = ref('')
 const accountType = ref('employee') // Default to "Employee"
-const errorMessage = ref('')
+const errorMessage = ref<string|null>('')
 
 const signup = async () => {
   const accountInfo: NewAccount = {

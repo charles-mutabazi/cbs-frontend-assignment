@@ -56,7 +56,7 @@ export const useBookingStore = defineStore('bookingStore', {
       }
     },
 
-    async fetchAvailableVehicles(slotDateTime: Date): Promise<Vehicle[]> {
+    async fetchAvailableVehicles(slotDateTime: String): Promise<Vehicle[]> {
       try {
         const res = await fetch(import.meta.env.VITE_API_BASE_URL + '/vehicles/available', {
           method: 'POST',
@@ -69,7 +69,7 @@ export const useBookingStore = defineStore('bookingStore', {
         if (!res.ok) {
           console.error('Error', res.statusText)
           this.errorMessage = 'Unable to fetch available vehicles, please try again later'
-          return
+          return []
         }
         return await res.json()
       } catch (e) {

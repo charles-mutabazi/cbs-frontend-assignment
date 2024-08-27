@@ -3,6 +3,7 @@ import { useStorage } from '@vueuse/core'
 import { jwtDecode } from 'jwt-decode'
 import { useDriverStore } from '@/data/stores/driverStore'
 import { useBookingStore } from '@/data/stores/bookingStore'
+import type { User } from '@/domain/model/User'
 
 const API_BASE_URL = 'http://localhost:3000' // api base url
 
@@ -11,8 +12,8 @@ export const useAuthStore = defineStore('authStore', {
     currentUser: useStorage('currentUser', {} as User) as User,
     jwt: useStorage('jwt', null) as string,
     isLoading: false,
-    info_message: null,
-    error: null
+    info_message: null as string | null,
+    error: null as string|null
   }),
   actions: {
     logoutUser() {
@@ -26,7 +27,7 @@ export const useAuthStore = defineStore('authStore', {
       useBookingStore().$reset()
     },
 
-    async loginUser(email: string, password: string, accountType: string): Promise<boolean> {
+    async loginUser(email: string, password: string, accountType: string): Promise<boolean | undefined> {
       this.isLoading = true
       this.error = null
 
@@ -56,7 +57,7 @@ export const useAuthStore = defineStore('authStore', {
 
       this.isLoading = false
     },
-    async createUserAccount(accountInfo: NewAccount, accountType): Promise<boolean> {
+    async createUserAccount(accountInfo: NewAccount, accountType:string): Promise<boolean|undefined> {
       try {
         const endpoint = accountType === 'driver' ? '/drivers' : '/users'
         // Set the loading state to true
@@ -102,6 +103,6 @@ function validateUser(data: any): User {
     email: typeof data.email === 'string' ? data.email : defaultUser.email,
     accountType: typeof data.accountType === 'string' ? data.accountType : defaultUser.accountType,
     hierarchyLevel:
-      typeof data.hierarchyLevel === 'number' ? data.hierarchyLevel : defaultUser.hierarchy
+      typeof data.hierarchyLevel === 'number' ? data.hierarchyLevel : defaultUser.hierarchyLevel
   }
 }
