@@ -14,5 +14,10 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  }, 
+  // set the server to listen on all interfaces
+  server: {
+    port: 8080,
+    host: '0.0.0.0'
   }
 })
