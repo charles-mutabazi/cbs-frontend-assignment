@@ -1,45 +1,53 @@
-# frontend-car-booking
+# Company XYZ Transport Booking System
 
-This template should help get you started developing with Vue 3 in Vite.
+This repository contains the transport booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide real-time booking management, and ensure reliable, secure operations.
 
-## Recommended IDE Setup
+## Table of Contents
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- [Frontend](#frontend)
+  - [Features](#features)
+  - [Tech Stack](#tech-stack)
+  - [Getting Started](#getting-started)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
 
-## Type Support for `.vue` Imports in TS
+## Frontend
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### Features
 
-## Customize configuration
+- **User Authentication**: Secure login and account creation.
+- **Booking Management**: Users can view available slots, book transport, and cancel own created.
+- **Driver Interaction**: Drivers confirm or reject booking requests.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+### Tech Stack
 
-## Project Setup
+- **Frontend Framework**: Vue.js
+- **State Management**: Pinia
+- **Styling**: Tailwind CSS
+- **API Communication**: Builtin Fetch API
+- **Routing**: Vue Router
+- **Build Tool**: Vite
 
-```sh
-npm install
-```
+### Getting Started
 
-### Compile and Hot-Reload for Development
+To get a local copy up and running, follow these steps.
 
-```sh
-npm run dev
-```
+#### Prerequisites
 
-### Type-Check, Compile and Minify for Production
+- **Node.js**: [Download Node.js](https://nodejs.org/)
+- **npm**: Package manager for dependencies.
 
-```sh
-npm run build
-```
+### Installation
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+1. **Clone the repository:** Clone the repository to your local machine.
 
-```sh
-npm run test:unit
-```
+2. **Install dependencies:** Run `npm install` to install all dependencies.
 
-### Lint with [ESLint](https://eslint.org/)
+3. **Environment Variables:** Create a `.env` file in the root directory and add the following environment variables:
+```VITE_API_BASE_URL="http://localhost:3000"``` (replace with your API base URL)
 
-```sh
-npm run lint
-```
+### Running the Application
+
+1. **Development Mode:** Run `npm run dev` to start the development server.
+
+2. **Production Mode:** Run `npm run build` to build the application for production. THIS IS NOT REQUIRED FOR LOCAL DEVELOPMENT.
