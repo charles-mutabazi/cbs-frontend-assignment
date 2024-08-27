@@ -1,6 +1,8 @@
 services:
   # to run in dev mode - $docker compose up cbs-dev
   cbs-dev:
+    env_file:
+      - .env
     build:
       context: .
       target: dev-stage
@@ -14,6 +16,8 @@ services:
     command: npm run dev
   # to run in prod mode - $docker compose up cbs-prod
   cbs-prod:
+    env_file:
+      - .env
     build:
       context: .
       target: production-stage
