@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import { jwtDecode } from 'jwt-decode'
+import { useDriverStore } from '@/data/stores/driverStore'
+import { useBookingStore } from '@/data/stores/bookingStore'
 
 const API_BASE_URL = 'http://localhost:3000' // api base url
 
@@ -14,11 +16,14 @@ export const useAuthStore = defineStore('authStore', {
   }),
   actions: {
     logoutUser() {
-      this.jwt = null
-      this.currentUser = null
       // Explicitly remove from storage if necessary
       localStorage.removeItem('currentUser');
       localStorage.removeItem('jwt');
+      this.$reset()
+
+      //reset other stores
+      useDriverStore().$reset()
+      useBookingStore().$reset()
     },
 
     async loginUser(email: string, password: string, accountType: string): Promise<boolean> {
