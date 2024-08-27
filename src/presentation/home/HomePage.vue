@@ -21,10 +21,9 @@ const formattedDate = (dateString: string): string => {
   const date = new Date(dateString)
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric',
     hour: 'numeric',
-    minute: 'numeric'
   }).format(date)
 }
 
@@ -65,7 +64,8 @@ onMounted(async () => {
           :destination="booking.destination"
           :dateTimeSlot="formattedDate(booking.slotDateTime)"
           :status="booking.status"
-          :onCancel="() => bookingStore.updateBookingStatus(BookingStatus.CANCELED)"
+          :onCancel="() => bookingStore.updateBooking(booking.id, BookingStatus.CANCELED)"
+          :onConfirm="() => bookingStore.updateBooking(booking.id, BookingStatus.CONFIRMED)"
         />
       </div>
     </div>
@@ -79,7 +79,7 @@ onMounted(async () => {
           :destination="booking.destination"
           :dateTimeSlot="formattedDate(booking.slotDateTime)"
           :status="booking.status"
-          :onCancel="() => bookingStore.updateBookingStatus(BookingStatus.CANCELED)"
+          :onCancel="() => bookingStore.updateBooking(booking.id, BookingStatus.CANCELED)"
         />
       </div>
     </div>
