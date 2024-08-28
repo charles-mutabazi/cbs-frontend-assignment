@@ -2,6 +2,9 @@
 
 This repository contains the car booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide booking management, and ensure reliable, secure operations.
 
+<img width="929" alt="booking_page" src="https://github.com/user-attachments/assets/a6c9dcf2-c07d-45da-86f5-bf99949fbe9e">
+
+
 ## Table of Contents
 
 - [Frontend](#frontend)
