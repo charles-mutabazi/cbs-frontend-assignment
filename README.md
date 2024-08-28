@@ -47,7 +47,8 @@ To get a local copy up and running, follow these steps.
 ```VITE_API_BASE_URL="http://localhost:3000"``` (replace with your API base URL)
 
 ### Running the Application
+1. Make sure the backend server is running. Refer to the [backend repo README](https://github.com/charles-mutabazi/cbs-backend-assignment) for instructions.
 
-1. **Development Mode:** Run `npm run dev` to start the development server.
+2. **Development Mode:** Run `npm run dev` to start the development server.
 
-2. **Production Mode:** Run `npm run build` to build the application for production. THIS IS NOT REQUIRED FOR LOCAL DEVELOPMENT.
+3. **Production Mode:** Run `npm run build` to build the application for production. THIS IS NOT REQUIRED FOR LOCAL DEVELOPMENT.
