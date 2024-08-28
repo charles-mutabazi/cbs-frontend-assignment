@@ -1,6 +1,11 @@
 <template>
   <div>
-    <p class="text-2xl font-semibold mb-8 border-b pb-4">New Booking</p>
+
+    <div class="flex justify-between border-b pb-4 mb-8">
+      <p class="text-2xl font-semibold">New Booking</p>
+      <router-link to="/" class="cursor-pointer text-blue-500 text-right text-lg">Go Back</router-link>
+    </div>
+
 
     <div class="flex">
       <!-- Time Slots Section -->

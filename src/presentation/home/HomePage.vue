@@ -2,7 +2,7 @@
 import { useAuthStore } from '@/data/stores/authStore'
 import { computed, onMounted } from 'vue'
 import { useBookingStore } from '@/data/stores/bookingStore'
-import { type BookingListing, BookingStatus } from '@/domain/model/Booking'
+import { BookingStatus } from '@/domain/model/Booking'
 import { useDriverStore } from '@/data/stores/driverStore'
 import DriverBookingCard from '@/presentation/components/DriverBookingCard.vue'
 import EmployeeBookingCard from '@/presentation/components/EmployeeBookingCard.vue'
@@ -13,7 +13,7 @@ const bookingStore = useBookingStore()
 const driverStore = useDriverStore()
 
 // make sure we have the latest bookings array
-const bookingListings: BookingListing[] = computed(() => {
+const bookingListings = computed(() => {
   return bookingStore.bookings.slice() // Create a copy of the array
 })
 

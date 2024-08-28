@@ -94,7 +94,6 @@ export const useBookingStore = defineStore('bookingStore', {
           this.errorMessage = 'Unable to book the vehicle'
           return
         }
-        this.bookings = [...this.bookings, newBooking]
       } catch (e) {
         console.error('Error', e)
         this.errorMessage = 'An error occurred while booking the vehicle'
@@ -107,6 +106,9 @@ export const useBookingStore = defineStore('bookingStore', {
       if (booking) {
         booking.status = newStatus
       }
+    },
+    getAllBookings: (state: BookingState) => {
+      return state.bookings
     }
   }
 })
