@@ -1,6 +1,6 @@
 # Company XYZ Transport Booking System - Frontend
 
-This repository contains the transport booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide real-time booking management, and ensure reliable, secure operations.
+This repository contains the transport booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide booking management, and ensure reliable, secure operations.
 
 ## Table of Contents
 
