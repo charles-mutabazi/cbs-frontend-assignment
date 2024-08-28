@@ -1,6 +1,5 @@
 export interface NewBooking {
-  id: number
-  userId: number
+  id?: number
   vehicleId: number
   driverId: number
   slotDateTime: String

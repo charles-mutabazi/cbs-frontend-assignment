@@ -1,4 +1,4 @@
-<template xmlns="http://www.w3.org/1999/html">
+<template>
   <div>
     <p class="text-2xl font-semibold mb-8 border-b pb-4">New Booking</p>
 
@@ -6,26 +6,15 @@
       <!-- Time Slots Section -->
       <div class="w-1/2 pe-8 border-r border-gray-300 overflow-y-auto">
         <div class="mb-8 border-b pb-4">
-          <vue-tailwind-datepicker
-            v-model="dateValue"
-            no-input
-            as-single
-            :formatter="formatter"
-            :disable-date="dDate"
-            disable-in-range
-          />
+          <vue-tailwind-datepicker v-model="dateValue" no-input as-single :formatter="formatter" :disable-date="dDate"
+            disable-in-range />
         </div>
         <p class="text-lg font-bold text-gray-700 mt-4 mb-8">Time Slots</p>
         <div class="grid grid-cols-2 gap-4">
-          <div
-            v-for="slot in timeSlots"
-            :key="slot"
-            @click="selectedSlot = slot"
-            :class="[
-              'flex items-center justify-center h-12 bg-white border border-gray-200 text-gray-700 rounded-md',
-              slot === selectedSlot ? 'bg-green-700 border-0 text-white' : ''
-            ]"
-          >
+          <div v-for="slot in timeSlots" :key="slot" @click="selectedSlot = slot" :class="[
+              'flex items-center justify-center h-12  rounded-md hover:cursor-pointer',
+  slot === selectedSlot ? 'bg-green-700 border-0 text-white' : 'bg-green-50 text-green-700 border border-green-700'
+            ]">
             {{ slot }}
           </div>
         </div>
@@ -38,7 +27,7 @@
           <div class="border-b">
             <h2 class="text-xl font-semibold mb-2">Add Booking Details</h2>
             <h2 class="text-md mb-4 text-gray-700">
-              You are making a booking as {{ currentUser.names }}
+              You are making a booking as: {{ currentUser.names }}
             </h2>
           </div>
 
@@ -47,11 +36,8 @@
             <p class="text-2xl font-bold">{{ displaySlotDate() }}</p>
           </div>
 
-          <button
-            v-if="showButton"
-            @click="fetchVehicles()"
-            class="w-full bg-amber-700 text-white rounded-lg hover:bg-amber-800 mb-4 h-14"
-          >
+          <button v-if="showButton" @click="fetchVehicles()"
+            class="w-full bg-amber-700 text-white rounded-lg hover:bg-amber-800 mb-4 h-14">
             Check available vehicles
           </button>
 
@@ -60,46 +46,33 @@
             <p class="text-lg font-bold text-gray-700">Available Vehicles</p>
             <p class="text-xs text-gray-500 mb-4">Select your desired vehicle</p>
             <div class="grid grid-cols-2 gap-4" v-if="vehicles.length > 0">
-              <div
-                v-for="vehicle in vehicles"
-                :key="vehicle.id"
-                @click="selectedVehicle = vehicle"
-                :class="[
+              <div v-for="vehicle in vehicles" :key="vehicle.id" @click="selectedVehicle = vehicle" :class="[
                   'bg-amber-50 border border-amber-500 rounded-md p-2 hover:cursor-pointer hover:bg-amber-100',
                   vehicle === selectedVehicle ? 'bg-amber-700 border-0 hover:bg-amber-700' : ''
-                ]"
-              >
-                <p
-                  :class="[
+                ]">
+                <p :class="[
                     'text-sm font-semibold mb-2',
                     vehicle === selectedVehicle ? 'text-white' : 'text-amber-900'
-                  ]"
-                >
+                  ]">
                   {{ vehicle.name }}
                 </p>
-                <p
-                  :class="[
+                <p :class="[
                     'text-xs',
                     vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
-                  ]"
-                >
+                  ]">
                   License Plate: {{ vehicle.licensePlate }}
                 </p>
-                <p
-                  :class="[
+                <p :class="[
                     'text-xs',
                     vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
-                  ]"
-                >
+                  ]">
                   Capacity: {{ vehicle.capacity }} seats
                 </p>
 
-                <p
-                  :class="[
+                <p :class="[
                     'text-xs font-semibold',
                     vehicle === selectedVehicle ? 'text-white' : 'text-amber-700'
-                  ]"
-                >
+                  ]">
                   Driver: {{ vehicle.driverNames }}
                 </p>
               </div>
@@ -116,29 +89,24 @@
             <label for="destination" class="block text-gray-700 font-medium">
               Enter your Destination
             </label>
-            <input
-              id="destination"
-              v-model="destination"
+            <input id="destination" v-model="destination"
               class="mt-1 p-2 w-full border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:cursor-not-allowed"
-              :disabled="!selectedVehicle"
-              required
-            />
+              :disabled="!selectedVehicle" required />
           </div>
 
           <hr class="mt-8 mb-8" />
 
-          <button
-            @click="submitForm"
-            type="submit"
+          <button @click="submitForm" type="submit"
             class="w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600 h-14 disabled:opacity-60 disabled:cursor-not-allowed"
-            :disabled="!selectedVehicle || !destination"
-          >
+            :disabled="!selectedVehicle || !destination">
             Submit
           </button>
         </div>
 
-        <div v-else>
-          <p>Please Select date and time</p>
+        <div v-else class="flex h-full justify-center items-center">
+          <div class="text-2xl text-gray-500 text-center font-bold">
+            <p>Please Select date and time</p>
+          </div>
         </div>
       </div>
     </div>
@@ -174,9 +142,10 @@ const timeSlots = ref(generateTimeSlots())
 const selectedSlot = ref('')
 const destination = ref('')
 
-const dateValue = ref('')
+const today = new Date()
+const dateValue = ref(today.toISOString().substring(0, 10))
 const dDate = (date: Date) => {
-  return date < new Date()
+  return date < today
 }
 const formatter = ref({
   date: 'YYYY-MM-DD',
@@ -199,7 +168,7 @@ const displaySlotDate = (): string => {
   }).format(date)
 }
 
-const selectedVehicle = ref<Vehicle>(null)
+const selectedVehicle = ref()
 const vehicles = ref<Vehicle[]>([])
 
 const fetchVehicles = async () => {
