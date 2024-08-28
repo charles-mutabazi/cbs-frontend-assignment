@@ -1,6 +1,6 @@
-# Company XYZ Transport Booking System - Frontend
+# Company XYZ Car Booking System - Frontend
 
-This repository contains the transport booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide booking management, and ensure reliable, secure operations.
+This repository contains the car booking system for Company XYZ, designed to manage the transportation needs of a large number of employees with a limited number of vehicles. The system is built to handle high loads, provide booking management, and ensure reliable, secure operations.
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ This repository contains the transport booking system for Company XYZ, designed 
 ### Features
 
 - **User Authentication**: Secure login and account creation.
-- **Booking Management**: Users can view available slots, book transport, and cancel own created.
+- **Booking Management**: Users can view available slots, book car, and cancel own created.
 - **Driver Interaction**: Drivers confirm or reject booking requests.
 
 ### Tech Stack
